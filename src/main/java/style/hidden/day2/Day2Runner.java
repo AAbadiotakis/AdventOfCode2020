@@ -3,6 +3,8 @@ package style.hidden.day2;
 import style.hidden.FileReaderUtil;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Day2Runner {
 
@@ -14,9 +16,7 @@ public class Day2Runner {
                     numTimesLetterInPassword++;
                 }
             }
-            if(minNumberRangeForPassword <= numTimesLetterInPassword && numTimesLetterInPassword <= maxNumberRangeForPassword) {
-                return true;
-            }
+            return minNumberRangeForPassword <= numTimesLetterInPassword && numTimesLetterInPassword <= maxNumberRangeForPassword;
         }
         return false;
     }
@@ -25,13 +25,7 @@ public class Day2Runner {
         String firstCharCheck = Character.toString(password.charAt(firstNumberInRange - 1));
         String secondCharCheck = Character.toString(password.charAt(secondNumberInRange - 1));
 
-        if(letterRequiredInPassword.equals(firstCharCheck) && !letterRequiredInPassword.equals(secondCharCheck)) {
-            return true;
-        } else if(!letterRequiredInPassword.equals(firstCharCheck) && letterRequiredInPassword.equals(secondCharCheck)) {
-            return true;
-        } else {
-            return false;
-        }
+        return letterRequiredInPassword.equals(firstCharCheck) ^ letterRequiredInPassword.equals(secondCharCheck);
     }
 
     public static void main(String... args) throws Exception {
@@ -39,19 +33,21 @@ public class Day2Runner {
         int part1count = 0;
         int part2count = 0;
         for(String line : lines) {
-            String passwordPolicy = line.split(":")[0];
-            String password = line.split(":")[1].trim();
-            String rangeForPassword = passwordPolicy.split(" ")[0];
-            String letterRequiredInPassword = passwordPolicy.split(" ")[1];
-            int firstNumberForPassword = Integer.parseInt(rangeForPassword.split("-")[0]);
-            int secondNumberForPassword = Integer.parseInt(rangeForPassword.split("-")[1]);
+            Matcher m = Pattern.compile("(\\d+)-(\\d+) ([a-z]): ([a-z]+)").matcher(line);
+            if(m.matches()) {
+                int firstNumberForPolicy = Integer.parseInt(m.group(1));
+                int secondNumberForPolicy = Integer.parseInt(m.group(2));
+                String letterRequiredInPassword = m.group(3);
+                String password = m.group(4);
 
-            if(part1(password, letterRequiredInPassword, firstNumberForPassword, secondNumberForPassword)) {
-                part1count++;
+                if(part1(password, letterRequiredInPassword, firstNumberForPolicy, secondNumberForPolicy)) {
+                    part1count++;
+                }
+                if(part2(password, letterRequiredInPassword, firstNumberForPolicy, secondNumberForPolicy)) {
+                    part2count++;
+                }
             }
-            if(part2(password, letterRequiredInPassword, firstNumberForPassword, secondNumberForPassword)) {
-                part2count++;
-            }
+
         }
         System.out.println("Day 2 Part 1 Answer = " + part1count);
         System.out.println("Day 2 Part 2 Answer = " + part2count);
