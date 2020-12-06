@@ -46,6 +46,6 @@ public class Day3Runner {
         int moveX7moveY1 = treeCounter(7, 1, map, i);
         int moveX1moveY2 = treeCounter(1, 2, map, i);
 
-        System.out.println("Day 3 Part 1 Answer = " + (moveX3moveY1 * moveX1moveY1 * moveX5moveY1 * moveX7moveY1 * moveX1moveY2));
+        System.out.println("Day 3 Part 2 Answer = " + (moveX3moveY1 * moveX1moveY1 * moveX5moveY1 * moveX7moveY1 * moveX1moveY2));
     }
 }
