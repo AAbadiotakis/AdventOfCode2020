@@ -28,7 +28,7 @@ public class Day6Runner {
                     allYesCounter++;
                 }
             }
-            yesCounter += line.chars().mapToObj(c -> (char) c).filter(ch -> !Character.toString(ch).equals("\n")).distinct().count();
+            yesCounter += chars.stream().filter(ch -> !Character.toString(ch).equals("\n")).distinct().count();
         }
         System.out.println("Day 6 Part 1 Answer = " + yesCounter);
         System.out.println("Day 6 Part 2 Answer = " + allYesCounter);
