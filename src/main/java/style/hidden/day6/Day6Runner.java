@@ -22,7 +22,6 @@ public class Day6Runner {
                     map.put(c, map.get(c) + 1);
                 } else {
                     map.put(c, 1L);
-
                 }
                 if(map.get(c) == numPeople) {
                     allYesCounter++;
